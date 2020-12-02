@@ -1,8 +1,29 @@
-<?php 
+<?php
+session_start();
+
+if( !isset($_SESSION["login"])){
+    header("Location: login.php");
+    exit;
+}
+
+// Create database connection using config file
 include_once('functions.php');
 
-$result = mysqli_query($mysqli, "SELECT * FROM distributor ORDER BY no_order ASC");
+// Fetch all users data from database
+$result = mysqli_query($mysqli, "SELECT * FROM makanan ORDER BY id_makanan ASC");
 
+//tombol cari ditekan
+if(isset($_POST["cari"])){
+    $result = cari($_POST["keyword"]);
+}
+
+if(isset($_POST["keluar"])){
+    session_unset();
+    session_destroy();
+
+    header("Location: login.php");
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -16,9 +37,9 @@ $result = mysqli_query($mysqli, "SELECT * FROM distributor ORDER BY no_order ASC
         integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 </head>
 
-<body class="">
+<body>
     <nav class="navbar navbar-secondary sticky-top bg-light flex-md-nowrap p-0 shadow">
-        <a class="navbar-brand  px-4" href="#">PT MUNDUR JAYA</a>
+        <a class="navbar-brand px-4" href="#">PT MUNDUR JAYA</a>
         <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse"
             data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -26,7 +47,13 @@ $result = mysqli_query($mysqli, "SELECT * FROM distributor ORDER BY no_order ASC
         <ul class="navbar-nav px-3">
 
             <li class="nav-item text-nowrap">
-                <a class="nav-link" href="#">Sign out</a>
+                <form action="" method="post">
+                    <button type="submit" style="border-width: 0;" class="nav-link text-primary bg-light"
+                        name="keluar">Sign
+                        out</button>
+                </form>
+
+
             </li>
         </ul>
     </nav>
@@ -97,38 +124,56 @@ $result = mysqli_query($mysqli, "SELECT * FROM distributor ORDER BY no_order ASC
                     </ul>
                 </div>
             </nav>
-            <div class="column mx-auto" style="margin-top: 150px;">
-                <form action="" method="post" class="form-inline my-3">
-                    <input type="text" class="form-control" name="keyword" size="40"
-                        placeholder="Masukan Keyword pencarian..." d autocomplete="off">
+            <div class="column mx-auto mt-5">
+                <form action="" class="form-inline my-3" method="post">
+                    <input type="text" class="form-control" name="keyword" placeholder="Masukan Keyword pencarian..."
+                        size="40" autocomplete="off">
                     <button type="submit" class="btn btn-primary ml-4" name="cari">Cari</button>
                 </form>
                 <table class="table">
                     <thead class="thead-dark">
                         <tr>
+                            <th scope="col">id</th>
+                            <th scope="col">Nama</th>
+                            <th scope="col">Jumlah</th>
+                            <th scope="col">Harga</th>
                             <th scope="col">No Order</th>
-                            <th scope="col">Nama PT</th>
-                            <th scope="col">Alamat</th>
-                            <th scope="col">Telepon</th>
+                            <th scope="col">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <?php foreach($result as $data_makanan):?>
+                    <tr>
+                        <td><?= $data_makanan['id_makanan']; ?></td>
+                        <td><?= $data_makanan['nama_makanan']; ?></td>
+                        <td><?= $data_makanan['jumlah_makanan']; ?></td>
+                        <td><?= $data_makanan['harga_makanan']; ?></td>
+                        <td><?= $data_makanan['no_order']; ?></td>
+                        <td> <button class="btn btn-warning">
+                                <a style="text-decoration: none; color:white;"
+                                    href='edit.php?id=<?= $data_makanan['id_makanan']; ?>'>Edit</a>
+                            </button>
+                            <button class="btn btn-danger"><a style="color: white; text-decoration: none;"
+                                    href='delete.php?id=<?= $data_makanan['id_makanan']; ?>'>Delete</a>
+                            </button>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                    <table />
+                    <button class="btn btn-primary">
 
-                        <?php foreach($result as $data_distributor):?>
-                        <tr>
-                            <td><?= $data_distributor['no_order']; ?></td>
-                            <td><?= $data_distributor['nama_PT']; ?></td>
-                            <td><?= $data_distributor['alamat']; ?></td>
-                            <td><?= $data_distributor['telepon']; ?></td>
-                            <!-- <td><a href='edit.php?id=<?= $data_makanan['id_makanan']; ?>'>Edit</a> | <a
-                    href='delete.php?id=<?= $data_makanan['id_makanan']; ?>'>Delete</a></td> -->
-                        </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+                        <a href="add.php" style="text-decoration: none;" class="text-light">Tambah Makanan Baru</a>
+                    </button>
             </div>
         </div>
     </div>
+
+    <?php 
+include_once('functions.php');
+
+$result = mysqli_query($mysqli, "SELECT A.nama_PT, A.alamat, A.telepon, B.jumlah_makanan, B.harga_makanan, B.nama_makanan
+FROM distributor A INNER JOIN makanan B ON A.no_order = B.no_order");
+
+?>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">

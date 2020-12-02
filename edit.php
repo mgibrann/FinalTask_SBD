@@ -23,7 +23,7 @@ if(isset($_POST['update']))
     $result = mysqli_query($mysqli, "UPDATE makanan SET nama_makanan='$nama',jumlah_makanan='$jumlah',harga_makanan='$harga',no_order='$order' WHERE id_makanan=$id");
 
     // Redirect to homepage to display updated user in list
-    header("Location: index.php");
+    header("Location: stockmakanan.php");
 }
 ?>
 <?php

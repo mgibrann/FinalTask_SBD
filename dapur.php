@@ -1,7 +1,15 @@
 <?php 
 include_once('functions.php');
 
-$result = mysqli_query($mysqli, "SELECT * FROM distributor ORDER BY no_order ASC");
+$result = mysqli_query($mysqli, "SELECT A.nama_PT, A.alamat, A.telepon, B.jumlah_makanan, B.harga_makanan, B.nama_makanan
+FROM distributor A INNER JOIN makanan B ON A.no_order = B.no_order");
+
+?>
+<?php 
+include_once('functions.php');
+
+$result = mysqli_query($mysqli, "SELECT A.nama_PT, A.alamat, A.telepon, B.jumlah_makanan, B.harga_makanan, B.nama_makanan
+FROM distributor A INNER JOIN makanan B ON A.no_order = B.no_order");
 
 ?>
 
@@ -106,20 +114,24 @@ $result = mysqli_query($mysqli, "SELECT * FROM distributor ORDER BY no_order ASC
                 <table class="table">
                     <thead class="thead-dark">
                         <tr>
+                            <th scope="">id Staff</th>
+                            <th scope="col">Nama Staff</th>
                             <th scope="col">No Order</th>
-                            <th scope="col">Nama PT</th>
-                            <th scope="col">Alamat</th>
-                            <th scope="col">Telepon</th>
+                            <th scope="col">Makanan</th>
+                            <th scope="col">Harga</th>
+                            <th scope="col">Nama Distributor</th>
                         </tr>
                     </thead>
                     <tbody>
 
-                        <?php foreach($result as $data_distributor):?>
+                        <?php foreach($result as $data_makanan):?>
                         <tr>
-                            <td><?= $data_distributor['no_order']; ?></td>
-                            <td><?= $data_distributor['nama_PT']; ?></td>
-                            <td><?= $data_distributor['alamat']; ?></td>
-                            <td><?= $data_distributor['telepon']; ?></td>
+                            <td><?= $data_makanan['nama_PT']; ?></td>
+                            <td><?= $data_makanan['nama_makanan']; ?></td>
+                            <td><?= $data_makanan['jumlah_makanan']; ?></td>
+                            <td><?= $data_makanan['harga_makanan']; ?></td>
+                            <td><?= $data_makanan['alamat']; ?></td>
+                            <td><?= $data_makanan['telepon']; ?></td>
                             <!-- <td><a href='edit.php?id=<?= $data_makanan['id_makanan']; ?>'>Edit</a> | <a
                     href='delete.php?id=<?= $data_makanan['id_makanan']; ?>'>Delete</a></td> -->
                         </tr>

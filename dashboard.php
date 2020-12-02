@@ -1,7 +1,12 @@
 <?php 
 include_once('functions.php');
 
-$result = mysqli_query($mysqli, "SELECT * FROM distributor ORDER BY no_order ASC");
+
+$tb1 = mysqli_query($mysqli, "SELECT A.nama_PT, A.alamat, A.telepon, B.jumlah_makanan, B.harga_makanan, B.nama_makanan
+FROM distributor A INNER JOIN makanan B ON A.no_order = B.no_order");
+
+$tb2 = mysqli_query($mysqli, "SELECT A.id_staff, A.nama_staff, A.no_order, B.nama_PT, C.nama_makanan, C.jumlah_makanan, C.harga_makanan 
+FROM staff_gudang A INNER JOIN distributor B ON A.no_order = B.no_order INNER JOIN makanan C ON B.no_order = C.no_order");
 
 ?>
 
@@ -97,29 +102,64 @@ $result = mysqli_query($mysqli, "SELECT * FROM distributor ORDER BY no_order ASC
                     </ul>
                 </div>
             </nav>
-            <div class="column mx-auto" style="margin-top: 150px;">
-                <form action="" method="post" class="form-inline my-3">
+            <div class="column mx-auto mt-5" style="margin-top: 200;">
+                <!-- <form action="" method=" post" class="form-inline my-3">
                     <input type="text" class="form-control" name="keyword" size="40"
                         placeholder="Masukan Keyword pencarian..." d autocomplete="off">
                     <button type="submit" class="btn btn-primary ml-4" name="cari">Cari</button>
-                </form>
+                </form> -->
+                <h4 style="text-align:center;">Tabel Distributor & Makanan</h4>
                 <table class="table">
                     <thead class="thead-dark">
                         <tr>
-                            <th scope="col">No Order</th>
-                            <th scope="col">Nama PT</th>
+                            <th scope="col">Nama Distributor</th>
+                            <th scope="col">Makanan dikirim</th>
+                            <th scope="col">Stock Makanan</th>
+                            <th scope="col">Harga</th>
                             <th scope="col">Alamat</th>
-                            <th scope="col">Telepon</th>
+                            <th scope="">Telepon</th>
                         </tr>
                     </thead>
                     <tbody>
 
-                        <?php foreach($result as $data_distributor):?>
+                        <?php foreach($tb1 as $data_tb1):?>
                         <tr>
-                            <td><?= $data_distributor['no_order']; ?></td>
-                            <td><?= $data_distributor['nama_PT']; ?></td>
-                            <td><?= $data_distributor['alamat']; ?></td>
-                            <td><?= $data_distributor['telepon']; ?></td>
+                            <td><?= $data_tb1['nama_PT']; ?></td>
+                            <td><?= $data_tb1['nama_makanan']; ?></td>
+                            <td><?= $data_tb1['jumlah_makanan']; ?></td>
+                            <td><?= $data_tb1['harga_makanan']; ?></td>
+                            <td><?= $data_tb1['alamat']; ?></td>
+                            <td><?= $data_tb1['telepon']; ?></td>
+                            <!-- <td><a href='edit.php?id=<?= $data_makanan['id_makanan']; ?>'>Edit</a> | <a
+                    href='delete.php?id=<?= $data_makanan['id_makanan']; ?>'>Delete</a></td> -->
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+                <h4 style="text-align:center;">Tabel Staff & Makanan</h4>
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="">Id Staff</th>
+                            <th scope="col">Nama Staff</th>
+                            <th scope="col">No Order</th>
+                            <th scope="col">Nama PT</th>
+                            <th scope="col">Makanan</th>
+                            <th scope="col">Jumlah</th>
+                            <th scope="col">Harga</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <?php foreach($tb2 as $data_tb2):?>
+                        <tr>
+                            <td><?= $data_tb2['id_staff']; ?></td>
+                            <td><?= $data_tb2['nama_staff']; ?></td>
+                            <td><?= $data_tb2['no_order']; ?></td>
+                            <td><?= $data_tb2['nama_PT']; ?></td>
+                            <td><?= $data_tb2['nama_makanan']; ?></td>
+                            <td><?= $data_tb2['jumlah_makanan']; ?></td>
+                            <td><?= $data_tb2['harga_makanan']; ?></td>
                             <!-- <td><a href='edit.php?id=<?= $data_makanan['id_makanan']; ?>'>Edit</a> | <a
                     href='delete.php?id=<?= $data_makanan['id_makanan']; ?>'>Delete</a></td> -->
                         </tr>

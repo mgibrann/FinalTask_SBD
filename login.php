@@ -22,7 +22,7 @@ if( isset($_POST["login"])){
             // set session
             $_SESSION["login"] = true;
             
-            header("Location: index.php");
+            header("Location: dashboad.php");
             exit;
         }
     }
