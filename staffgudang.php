@@ -3,6 +3,16 @@ include_once('functions.php');
 
 $result = mysqli_query($mysqli, "SELECT * FROM staff_gudang ORDER BY id_staff ASC");
 
+if(isset($_POST["cari"])){
+    $result = caristaff($_POST["keyword"]);
+}
+if(isset($_POST["keluar"])){
+    session_unset();
+    session_destroy();
+
+    header("Location: login.php");
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -16,9 +26,9 @@ $result = mysqli_query($mysqli, "SELECT * FROM staff_gudang ORDER BY id_staff AS
         integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 </head>
 
-<body class="">
+<body>
     <nav class="navbar navbar-secondary sticky-top bg-light flex-md-nowrap p-0 shadow">
-        <a class="navbar-brand  px-4" href="#">PT MUNDUR JAYA</a>
+        <a class="navbar-brand  px-4 py-2" href="#">PT MUNDUR JAYA</a>
         <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse"
             data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -26,7 +36,11 @@ $result = mysqli_query($mysqli, "SELECT * FROM staff_gudang ORDER BY id_staff AS
         <ul class="navbar-nav px-3">
 
             <li class="nav-item text-nowrap">
-                <a class="nav-link" href="#">Sign out</a>
+                <form action="" method="post">
+                    <button type="submit" style="border-width: 0;" class="nav-link text-primary bg-light"
+                        name="keluar">Sign
+                        out</button>
+                </form>
             </li>
         </ul>
     </nav>
@@ -98,10 +112,11 @@ $result = mysqli_query($mysqli, "SELECT * FROM staff_gudang ORDER BY id_staff AS
                 </div>
             </nav>
             <div class="column mx-auto" style="margin-top: 150px;">
-                <form action="" method="post" class="form-inline my-3">
-                    <input type="text" class="form-control" name="keyword" size="40"
-                        placeholder="Masukan Keyword pencarian..." d autocomplete="off">
+                <form action="" class="form-inline my-3" method="post">
+                    <input type="text" class="form-control" name="keyword" placeholder="Masukan Keyword pencarian..."
+                        size="40" autocomplete="off">
                     <button type="submit" class="btn btn-primary ml-4" name="cari">Cari</button>
+                </form>
                 </form>
                 <table class="table">
                     <thead class="thead-dark">
@@ -109,17 +124,27 @@ $result = mysqli_query($mysqli, "SELECT * FROM staff_gudang ORDER BY id_staff AS
                             <th scope="">Id Staff</th>
                             <th scope="col">Nama Staff</th>
                             <th scope="col">No Order</th>
+                            <th scope="col">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
 
-                        <?php foreach($result as $data_makanan):?>
+                        <?php foreach($result as $data_staff):?>
                         <tr>
-                            <td><?= $data_makanan['id_staff']; ?></td>
-                            <td><?= $data_makanan['nama_staff']; ?></td>
-                            <td><?= $data_makanan['no_order']; ?></td>
-                            <!-- <td><a href='edit.php?id=<?= $data_makanan['id_makanan']; ?>'>Edit</a> | <a
-                    href='delete.php?id=<?= $data_makanan['id_makanan']; ?>'>Delete</a></td> -->
+                            <td><?= $data_staff['id_staff']; ?></td>
+                            <td><?= $data_staff['nama_staff']; ?></td>
+                            <td><?= $data_staff['no_order']; ?></td>
+                            <td> <button class="btn btn-warning">
+                                    <a style="text-decoration: none; color:white;"
+                                        href='editstaff.php?id=<?= $data_staff['id_staff']; ?>'>Edit</a>
+                                </button>
+                                <button class="btn btn-danger"><a style="color: white; text-decoration: none;"
+                                        href='deletestaff.php?id=<?= $data_staff['id_staff']; ?>'>Delete</a>
+                                </button>
+                                <button class="btn btn-success">
+                                    <a href="addstaff.php" style="text-decoration: none;" class="text-light">+</a>
+                                </button>
+                            </td>
                         </tr>
                         <?php endforeach; ?>
                     </tbody>

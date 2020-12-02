@@ -17,7 +17,7 @@ if(isset($_POST["keluar"])){
 <html>
 
 <head>
-    <title>Menambahkan Makanan</title>
+    <title>Menambahkan Staff</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
         integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 </head>
@@ -41,31 +41,27 @@ if(isset($_POST["keluar"])){
     </nav>
 
     <div class="container-fluid bg-light mt-5">
-        <div class="col-3 mx-auto my-auto">
-            <h2 class="text-primary text-center">Tambah Makanan</h2>
-            <form action="add.php" class="form-inline" method="post" name="form1">
+        <div class="col-4 mx-auto my-auto">
+            <h2 class="text-primary text-center">Tambah Staff</h2>
+            <form action="addstaff.php" class="form-inline" method="post" name="form1">
                 <table class="table table-dark">
                     <tr>
+                        <td>Id</td>
+                        <td><input type="text" class="form-control" name="id_makanan"></td>
+                    </tr>
+                    <tr>
                         <td>Nama</td>
-                        <td><input type="text" class="form-control" name="nama_makanan"></td>
+                        <td><input type="text" class="form-control" name="nama_staff"></td>
                     </tr>
                     <tr>
-                        <td>Jumlah</td>
-                        <td><input type="text" class="form-control" name="jumlah_makanan"></td>
-                    </tr>
-                    <tr>
-                        <td>Harga</td>
-                        <td><input type="text" class="form-control" name="harga_makanan"></td>
-                    </tr>
-                    <tr>
-                        <td>Order</td>
+                        <td>No Order</td>
                         <td><input type="text" class="form-control" name="no_order"></td>
                     </tr>
                     <tr>
                         <td></td>
                         <td><input type="submit" class="btn btn-primary" name="Submit" value="Add"> <button
                                 class="btn btn-warning ml-2 "><a class="text-light"
-                                    href="stockmakanan.php">Kembali</a></button></td>
+                                    href="staffgudang.php">Kembali</a></button></td>
                     </tr>
                 </table>
             </form>
@@ -76,19 +72,18 @@ if(isset($_POST["keluar"])){
 
     // Check If form submitted, insert form data into users table.
     if(isset($_POST['Submit'])) {
-        $nama = $_POST['nama_makanan'];
-        $jumlah = $_POST['jumlah_makanan'];
-        $harga = $_POST['harga_makanan'];
+        $id = $_POST['id_staff'];
+        $nama = $_POST['nama_staff'];
         $order = $_POST['no_order'];
 
         // include database connection file
         include_once("functions.php");
 
         // Insert user data into table
-        $result = mysqli_query($mysqli, "INSERT INTO makanan(id_makanan,nama_makanan,jumlah_makanan,harga_makanan,no_order) VALUES('','$nama','$jumlah','$harga','$order')");
+        $result = mysqli_query($mysqli, "INSERT INTO staff_gudang(id_staff,nama_staff,no_order) VALUES('','$nama','$order')");
 
         // Show message when user added
-        header("Location: stockmakanan.php");
+        header("Location: staffgudang.php");
         exit;
     }
     ?>

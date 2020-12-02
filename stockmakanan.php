@@ -39,7 +39,7 @@ if(isset($_POST["keluar"])){
 
 <body>
     <nav class="navbar navbar-secondary sticky-top bg-light flex-md-nowrap p-0 shadow">
-        <a class="navbar-brand px-4" href="#">PT MUNDUR JAYA</a>
+        <a class="navbar-brand px-4 py-2" href="#">PT MUNDUR JAYA</a>
         <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse"
             data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -52,13 +52,11 @@ if(isset($_POST["keluar"])){
                         name="keluar">Sign
                         out</button>
                 </form>
-
-
             </li>
         </ul>
     </nav>
 
-    <div class="container-fluid bg-light">
+    <div class="container-fluid bg-light mb-4">
         <div class="row" style="height: 660px;">
             <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-primary sidebar collapse">
                 <div class="sidebar-sticky pt-3">
@@ -155,14 +153,13 @@ if(isset($_POST["keluar"])){
                             <button class="btn btn-danger"><a style="color: white; text-decoration: none;"
                                     href='delete.php?id=<?= $data_makanan['id_makanan']; ?>'>Delete</a>
                             </button>
+                            <button class="btn btn-success">
+                                <a href="add.php" style="text-decoration: none;" class="text-light">+</a>
+                            </button>
                         </td>
                     </tr>
                     <?php endforeach; ?>
                     <table />
-                    <button class="btn btn-primary">
-
-                        <a href="add.php" style="text-decoration: none;" class="text-light">Tambah Makanan Baru</a>
-                    </button>
             </div>
         </div>
     </div>

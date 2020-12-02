@@ -12,8 +12,8 @@ include_once("functions.php");
 $id = $_GET['id'];
 
 // Delete user row from table based on given id
-$result = mysqli_query($mysqli, "DELETE FROM makanan WHERE id_makanan=$id");
+$result = mysqli_query($mysqli, "DELETE FROM distributor WHERE no_order=$id");
 
 // After delete redirect to Home, so that latest user list will be displayed.
-header("Location:stockmakanan.php");
+header("Location: distributor.php");
 ?>

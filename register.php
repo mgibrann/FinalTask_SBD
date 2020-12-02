@@ -45,8 +45,11 @@ if(isset($_POST["register"])){
 
     <div class="content">
         <form class="cform-signin" method="post">
-            <img class="mb-4" src="/docs/4.5/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
-            <h1 class="h3 mb-3 font-weight-normal">Sign In</h1>
+            <div class="mb-5 text-primary">
+
+                <h2>PT MUNDUR JAYA</h2>
+            </div>
+            <h1 class="h4 mb-3 font-weight-normal">Sign In</h1>
             <div>
                 <label for="username" class="sr-only">Username</label>
                 <input type="text" id="username" name="username" class="form-control" placeholder="Username"

@@ -1,8 +1,21 @@
 <?php 
+session_start();
 include_once('functions.php');
+
+if( !isset($_SESSION["login"])){
+    header("Location: login.php");
+    exit;
+}
 
 $result = mysqli_query($mysqli, "SELECT * FROM distributor ORDER BY no_order ASC");
 
+if(isset($_POST["keluar"])){
+    session_unset();
+    session_destroy();
+
+    header("Location: login.php");
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -16,9 +29,9 @@ $result = mysqli_query($mysqli, "SELECT * FROM distributor ORDER BY no_order ASC
         integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 </head>
 
-<body class="">
+<body>
     <nav class="navbar navbar-secondary sticky-top bg-light flex-md-nowrap p-0 shadow">
-        <a class="navbar-brand  px-4" href="#">PT MUNDUR JAYA</a>
+        <a class="navbar-brand  px-4 py-2" href="#">PT MUNDUR JAYA</a>
         <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse"
             data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -26,7 +39,11 @@ $result = mysqli_query($mysqli, "SELECT * FROM distributor ORDER BY no_order ASC
         <ul class="navbar-nav px-3">
 
             <li class="nav-item text-nowrap">
-                <a class="nav-link" href="#">Sign out</a>
+                <form action="" method="post">
+                    <button type="submit" style="border-width: 0;" class="nav-link text-primary bg-light"
+                        name="keluar">Sign
+                        out</button>
+                </form>
             </li>
         </ul>
     </nav>
@@ -110,6 +127,7 @@ $result = mysqli_query($mysqli, "SELECT * FROM distributor ORDER BY no_order ASC
                             <th scope="col">Nama PT</th>
                             <th scope="col">Alamat</th>
                             <th scope="col">Telepon</th>
+                            <th scope="col">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -120,8 +138,14 @@ $result = mysqli_query($mysqli, "SELECT * FROM distributor ORDER BY no_order ASC
                             <td><?= $data_distributor['nama_PT']; ?></td>
                             <td><?= $data_distributor['alamat']; ?></td>
                             <td><?= $data_distributor['telepon']; ?></td>
-                            <!-- <td><a href='edit.php?id=<?= $data_makanan['id_makanan']; ?>'>Edit</a> | <a
-                    href='delete.php?id=<?= $data_makanan['id_makanan']; ?>'>Delete</a></td> -->
+                            <td>
+                                <button class="btn btn-danger"><a style="color: white; text-decoration: none;"
+                                        href='deletedistributor.php?id=<?= $data_distributor['no_order']; ?>'>Delete</a>
+                                </button>
+                                <button class="btn btn-success">
+                                    <a href="adddistributor.php" style="text-decoration: none;" class="text-light">+</a>
+                                </button>
+                            </td>
                         </tr>
                         <?php endforeach; ?>
                     </tbody>

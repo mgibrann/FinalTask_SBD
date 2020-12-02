@@ -29,6 +29,16 @@ function cari($keyword){
     return query($query);
 }
 
+function caristaff($keyword){
+    $query = "SELECT * FROM staff_gudang 
+                WHERE
+            id_staff LIKE '%$keyword%' OR
+            nama_staff LIKE '%$keyword%' OR
+            no_order LIKE '%$keyword%'
+            ";
+    return query($query);
+}
+
 function register($data){
     global $mysqli;
 

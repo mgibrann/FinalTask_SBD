@@ -1,6 +1,11 @@
 <?php 
-include_once('functions.php');
+session_start();
 
+if( !isset($_SESSION["login"])){
+    header("Location: login.php");
+    exit;
+}  
+include_once('functions.php');
 
 $tb1 = mysqli_query($mysqli, "SELECT A.nama_PT, A.alamat, A.telepon, B.jumlah_makanan, B.harga_makanan, B.nama_makanan
 FROM distributor A INNER JOIN makanan B ON A.no_order = B.no_order");
@@ -8,6 +13,13 @@ FROM distributor A INNER JOIN makanan B ON A.no_order = B.no_order");
 $tb2 = mysqli_query($mysqli, "SELECT A.id_staff, A.nama_staff, A.no_order, B.nama_PT, C.nama_makanan, C.jumlah_makanan, C.harga_makanan 
 FROM staff_gudang A INNER JOIN distributor B ON A.no_order = B.no_order INNER JOIN makanan C ON B.no_order = C.no_order");
 
+if(isset($_POST["keluar"])){
+    session_unset();
+    session_destroy();
+
+    header("Location: login.php");
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -23,15 +35,19 @@ FROM staff_gudang A INNER JOIN distributor B ON A.no_order = B.no_order INNER JO
 
 <body class="">
     <nav class="navbar navbar-secondary sticky-top bg-light flex-md-nowrap p-0 shadow">
-        <a class="navbar-brand  px-4" href="#">PT MUNDUR JAYA</a>
+        <a class="navbar-brand  px-4 py-2" href="#">PT MUNDUR JAYA</a>
         <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse"
             data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <ul class="navbar-nav px-3">
-
+            <form action="" method="POST"></form>
             <li class="nav-item text-nowrap">
-                <a class="nav-link" href="#">Sign out</a>
+                <form action="" method="post">
+                    <button type="submit" style="border-width: 0;" class="nav-link text-primary bg-light"
+                        name="keluar">Sign
+                        out</button>
+                </form>
             </li>
         </ul>
     </nav>
@@ -103,11 +119,6 @@ FROM staff_gudang A INNER JOIN distributor B ON A.no_order = B.no_order INNER JO
                 </div>
             </nav>
             <div class="column mx-auto mt-5" style="margin-top: 200;">
-                <!-- <form action="" method=" post" class="form-inline my-3">
-                    <input type="text" class="form-control" name="keyword" size="40"
-                        placeholder="Masukan Keyword pencarian..." d autocomplete="off">
-                    <button type="submit" class="btn btn-primary ml-4" name="cari">Cari</button>
-                </form> -->
                 <h4 style="text-align:center;">Tabel Distributor & Makanan</h4>
                 <table class="table">
                     <thead class="thead-dark">
