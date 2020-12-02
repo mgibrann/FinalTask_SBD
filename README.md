@@ -7,4 +7,4 @@ ERD
 ![ERD](./ERD_SBD.png)
 
 Lembar Asistensi
-![lembar asistensi](./lembar-asistensi.jng)
+![lembar asistensi](./lembar-asistensi.jpg)
